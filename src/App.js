@@ -50,9 +50,10 @@ const App = () => {
     setUser(null)
   }
 
-  const addBlog = (event) => {
+  const addBlog = async (event) => {
     event.preventDefault()
-
+    const newBlog = await blogServices.create({ title, author, url })
+    setBlogs(blogs.concat(newBlog))
   }
 
   if(user === null || !user){

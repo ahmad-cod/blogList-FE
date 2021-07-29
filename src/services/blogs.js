@@ -20,4 +20,9 @@ const create = async (newUser) => {
   return response.data
 }
 
+// const update = async (id) => {
+//   const response = await axios.put(`${baseUrl}/${id}`)
+//   return response.data
+// }
+
 export default { getAll, create, setToken }
