@@ -31,14 +31,22 @@ const App = () => {
     console.log('form submitted')
     try {
       const user = await loginService({ username, password })
+      if(!user){
+        setTimeout(() => {
+          setPassword('')
+          setMessage({})
+        }, 2000)
+        
+        return setMessage({type: 'failure', text: 'Wrong username or password'})
+      }
 
       setUser(user)
       window.localStorage.setItem('blogListUser', JSON.stringify(user))
-      window.localStorage.setItem('blogList_Token', (user.token))
       blogServices.setToken(user.token)
       setUsername('')
       setPassword('')
     } catch(exception) {
+      console.log(exception)
       setMessage({text: 'Wrong Credentials', type: 'failure'})
       setTimeout(() => {
         setMessage({})
@@ -76,6 +84,7 @@ const App = () => {
   return (
     <>
       <h2>Login to application</h2>
+      <div> {notification} </div>
       <form className="login" onSubmit={handleLogin}>
           <label htmlFor="username">Username: </label>
           <input 
