@@ -87,6 +87,7 @@ const App = () => {
         <LoginForm
          username={username}
          password={password}
+         handleSubmit={handleSubmit}
          handleUsernameChange={({ target }) => setUsername(target.value) }
          handlePasswordChange={({ target }) => setPassword(target.value) }
         />
@@ -95,15 +96,17 @@ const App = () => {
    }
 
    const blogForm = () => {
-     <BlogForm
-      handleSubmit={addBlog}
-      title={title}
-      author={author}
-      url={url}
-      handleTitleChange={({ target }) => setTitle(target.value)} 
-      handleAuthorChange={({ target }) => setAuthor(target.value)} 
-      handleUrlChange={({ target }) => setUrl(target.value)} 
-     />
+     return (
+      <BlogForm
+        handleSubmit={addBlog}
+        title={title}
+        author={author}
+        url={url}
+        handleTitleChange={({ target }) => setTitle(target.value)} 
+        handleAuthorChange={({ target }) => setAuthor(target.value)} 
+        handleUrlChange={({ target }) => setUrl(target.value)} 
+      />
+     )
    }
 
   if(user === null || !user){
@@ -114,7 +117,7 @@ const App = () => {
         <h2>Blogs</h2>
         <div> {notification} </div>
         <div>{user.name} logged in <button onClick={handleLogout}>logout</button></div>
-        {blogForm()}
+        { blogForm() }
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
