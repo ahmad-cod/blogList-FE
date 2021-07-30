@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import blogServices from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
 
 
 const App = () => {
@@ -86,11 +87,23 @@ const App = () => {
         <LoginForm
          username={username}
          password={password}
-         handleUsernameChange={({ target }) => { setUsername(target.value) }}
-         handlePasswordChange={({ target }) => { setPassword(target.value) }}
+         handleUsernameChange={({ target }) => setUsername(target.value) }
+         handlePasswordChange={({ target }) => setPassword(target.value) }
         />
       </>
      )
+   }
+
+   const blogForm = () => {
+     <BlogForm
+      handleSubmit={addBlog}
+      title={title}
+      author={author}
+      url={url}
+      handleTitleChange={({ target }) => setTitle(target.value)} 
+      handleAuthorChange={({ target }) => setAuthor(target.value)} 
+      handleUrlChange={({ target }) => setUrl(target.value)} 
+     />
    }
 
   if(user === null || !user){
@@ -101,33 +114,7 @@ const App = () => {
         <h2>Blogs</h2>
         <div> {notification} </div>
         <div>{user.name} logged in <button onClick={handleLogout}>logout</button></div>
-        <div>
-          <h3>Create new Blog List</h3>
-          <form onSubmit={addBlog}>
-            <label htmlFor="title">Title: </label>
-            <input
-             type="text"
-             name="title"
-             value={title}
-             onChange={({ target }) => setTitle(target.value)}
-             />
-            <label htmlFor="author">Author </label>
-            <input
-             type="text"
-             name="author"
-             value={author}
-             onChange={({ target }) => setAuthor(target.value)}
-             />
-            <label htmlFor="url">Url </label>
-            <input
-             type="url"
-             name="url"
-             value={url}
-             onChange={({ target }) => setUrl(target.value)}
-             />
-            <button type="submit">Create</button>
-          </form>
-        </div>
+        {blogForm()}
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
