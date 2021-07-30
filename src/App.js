@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogServices from './services/blogs'
 import loginService from './services/login'
+import LoginForm from './components/LoginForm'
 
 
 const App = () => {
@@ -26,7 +27,7 @@ const App = () => {
       setBlogs( blogs )
     )  
   }, [])
-  const handleLogin = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     console.log('form submitted')
     try {
@@ -78,32 +79,22 @@ const App = () => {
 
   const notification = (!message.type) ? null : 
   <p className= {`notification ${message.type}`}>{message.text} </p>
-   
+   const loginForm = () => {
+    return (
+      <>
+        <div> {notification} </div>
+        <LoginForm
+         username={username}
+         password={password}
+         handleUsernameChange={({ target }) => { setUsername(target.value) }}
+         handlePasswordChange={({ target }) => { setPassword(target.value) }}
+        />
+      </>
+     )
+   }
 
   if(user === null || !user){
-  return (
-    <>
-      <h2>Login to application</h2>
-      <div> {notification} </div>
-      <form className="login" onSubmit={handleLogin}>
-          <label htmlFor="username">Username: </label>
-          <input 
-          type="text"
-          name="username"
-          value={username}
-          onChange={( {target}) => setUsername(target.value) }
-          />
-          <label htmlFor="password">Password: </label>
-          <input 
-          type="password"
-          name="password"
-          value={password}
-          onChange={({ target }) => setPassword(target.value)}
-          />
-          <button type="submit">Login</button>
-      </form>
-      </>
-   )
+    return loginForm()
   } 
   return(
       <div>
