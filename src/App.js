@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogServices from './services/blogs'
 import loginService from './services/login'
@@ -16,6 +16,7 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [message, setMessage] = useState({})
+  const blogFormRef = useRef()
 
   useEffect(() => {
     const loggedInUser = window.localStorage.getItem('blogListUser')
@@ -63,8 +64,9 @@ const App = () => {
   }
 
   const addBlog = async (event) => {
-    blogServices.setToken(user.token)
     event.preventDefault()
+    blogServices.setToken(user.token)
+    blogFormRef.current.toggleVisibility()
     const newBlog = await blogServices.create({ title, author, url })
     setBlogs(blogs.concat(newBlog))
     setTitle('')
@@ -98,7 +100,7 @@ const App = () => {
 
    const blogForm = () => {
      return (
-      <Togglable buttonLabel="Add Blog">
+      <Togglable buttonLabel="Add Blog" ref={blogFormRef}>
         <BlogForm
         handleSubmit={addBlog}
         title={title}
