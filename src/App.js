@@ -4,6 +4,7 @@ import blogServices from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 
 const App = () => {
@@ -82,7 +83,7 @@ const App = () => {
   <p className= {`notification ${message.type}`}>{message.text} </p>
    const loginForm = () => {
     return (
-      <>
+      <Togglable buttonLabel="log in">
         <div> {notification} </div>
         <LoginForm
          username={username}
@@ -91,13 +92,14 @@ const App = () => {
          handleUsernameChange={({ target }) => setUsername(target.value) }
          handlePasswordChange={({ target }) => setPassword(target.value) }
         />
-      </>
+      </Togglable>
      )
    }
 
    const blogForm = () => {
      return (
-      <BlogForm
+      <Togglable buttonLabel="Add Blog">
+        <BlogForm
         handleSubmit={addBlog}
         title={title}
         author={author}
@@ -106,6 +108,7 @@ const App = () => {
         handleAuthorChange={({ target }) => setAuthor(target.value)} 
         handleUrlChange={({ target }) => setUrl(target.value)} 
       />
+      </Togglable>
      )
    }
 
