@@ -9,7 +9,7 @@ const blogStyle = {
   margin: '5px 2px'
 }
 
-const Blog = ({blog, setUpdate, user}) => {
+const Blog = ({ blog, setUpdate, user }) => {
   const handleLike = async () => {
     const updateBlog = {
       ...blog,
@@ -17,19 +17,18 @@ const Blog = ({blog, setUpdate, user}) => {
     }
     try {
       await blogServices.update(blog.id, updateBlog)
-    
       setUpdate(true)
       setUpdate(null)
     } catch (e) {
       console.log(e)
     }
-
   }
 
   const handleRemove = async () => {
     if(!window.confirm(`Remove blog ${blog.title} by ${blog.author}`)){return false}
     try {
-      console.log(blog)
+      blogServices.setToken(user.token)
+      // console.log(blog)
       await blogServices.remove(blog.id)
       setUpdate(true)
       setUpdate(null)
@@ -39,22 +38,20 @@ const Blog = ({blog, setUpdate, user}) => {
   }
 
   return (
-  <div style={blogStyle}>
-    {blog.title} by {blog.author}
-    <Togglable buttonLabel="View">
-            <p>Url: <a href={blog.url}>{blog.url}</a></p>
-            <p>Likes: {blog.likes}  
-              <button onClick={handleLike}>Like</button>
-            </p>
-            <p>{blog.user.name}</p>
-            <p>
-              {blog.user.username === user.username ?
-              <button onClick={handleRemove}>Remove</button> : ''
-              }
-            </p>
-    </Togglable>
-  </div> 
-  )
+    <div style={blogStyle}>
+      {blog.title} by {blog.author}
+      <Togglable buttonLabel="View">
+        <p>Url: <a href={blog.url}>{blog.url}</a></p>
+        <p>Likes: {blog.likes}  <button onClick={handleLike}>Like</button>
+        </p>
+        <p>{blog.user.name}</p>
+        <p>
+          {blog.user.username === user.username ?
+            <button onClick={handleRemove}>Remove</button> : ''
+          }
+        </p>
+      </Togglable>
+    </div> )
 }
 
 export default Blog

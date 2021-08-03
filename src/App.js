@@ -29,8 +29,7 @@ const App = () => {
   useEffect(() => {
     blogServices.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
-  }, [update])
+    ) }, [update])
   const handleSubmit = async (event) => {
     event.preventDefault()
     console.log('form submitted')
@@ -41,8 +40,7 @@ const App = () => {
           setPassword('')
           setMessage({})
         }, 2000)
-        
-        return setMessage({type: 'failure', text: 'Wrong username or password'})
+        return setMessage({ type: 'failure', text: 'Wrong username or password' })
       }
 
       setUser(user)
@@ -52,7 +50,7 @@ const App = () => {
       setPassword('')
     } catch(exception) {
       console.log(exception)
-      setMessage({text: 'Wrong Credentials', type: 'failure'})
+      setMessage({ text: 'Wrong Credentials', type: 'failure' })
       setTimeout(() => {
         setMessage({})
       }, 5000)
@@ -82,54 +80,51 @@ const App = () => {
     }, 4000)
   }
 
-  const notification = (!message.type) ? null : 
-  <p className= {`notification ${message.type}`}>{message.text} </p>
-   const loginForm = () => {
+  const notification = (!message.type) ? null : <p className= {`notification ${message.type}`}>{message.text} </p>
+  const loginForm = () => {
     return (
       <Togglable buttonLabel="log in">
         <div> {notification} </div>
         <LoginForm
-         username={username}
-         password={password}
-         handleSubmit={handleSubmit}
-         handleUsernameChange={({ target }) => setUsername(target.value) }
-         handlePasswordChange={({ target }) => setPassword(target.value) }
+          username={username}
+          password={password}
+          handleSubmit={handleSubmit}
+          handleUsernameChange={({ target }) => setUsername(target.value) }
+          handlePasswordChange={({ target }) => setPassword(target.value) }
         />
       </Togglable>
-     )
-   }
+    )
+  }
 
-   const blogForm = () => {
-     return (
+  const blogForm = () => {
+    return (
       <Togglable buttonLabel="Add Blog" ref={blogFormRef}>
         <BlogForm
-        handleSubmit={addBlog}
-        title={title}
-        author={author}
-        url={url}
-        handleTitleChange={({ target }) => setTitle(target.value)} 
-        handleAuthorChange={({ target }) => setAuthor(target.value)} 
-        handleUrlChange={({ target }) => setUrl(target.value)} 
-      />
+          handleSubmit={addBlog}
+          title={title}
+          author={author}
+          url={url}
+          handleTitleChange={({ target }) => setTitle(target.value)}
+          handleAuthorChange={({ target }) => setAuthor(target.value)}
+          handleUrlChange={({ target }) => setUrl(target.value)}  />
       </Togglable>
-     )
-   }
+    )
+  }
 
   if(user === null || !user){
     return loginForm()
-  } 
+  }
   return(
-      <div>
-        <h2>Blogs</h2>
-        <div> {notification} </div>
-        <div>{user.name} logged in <button onClick={handleLogout}>logout</button></div>
-        { blogForm() }
-        {blogs
-          .sort((a, b) => b.likes - a.likes)
-          .map(blog =>
-            <Blog key={blog.id} blog={blog} setUpdate={setUpdate} user={user} />  
-        )}
-      </div>
+    <div>
+      <h2>Blogs</h2>
+      <div> {notification} </div>
+      <div>{user.name} logged in <button onClick={handleLogout}>logout</button></div>
+      { blogForm() }
+      {blogs
+        .sort((a, b) => b.likes - a.likes)
+        .map(blog =>
+          <Blog key={blog.id} blog={blog} setUpdate={setUpdate} user={user} />  )}
+    </div>
   )
 }
 
