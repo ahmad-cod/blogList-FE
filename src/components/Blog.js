@@ -39,10 +39,12 @@ const Blog = ({ blog, setUpdate, user }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title} by {blog.author}
+      <div className='titleauthor'>
+        {blog.title} by {blog.author}
+      </div>
       <Togglable buttonLabel="View">
-        <p>Url: <a href={blog.url}>{blog.url}</a></p>
-        <p>Likes: {blog.likes}  <button onClick={handleLike}>Like</button>
+        <p className='blogUrl'>Url: <a href={blog.url}>{blog.url}</a></p>
+        <p className='blogLikes'>Likes: {blog.likes}  <button onClick={handleLike}>Like</button>
         </p>
         <p>{blog.user.name}</p>
         <p>
