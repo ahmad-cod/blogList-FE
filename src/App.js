@@ -32,7 +32,7 @@ const App = () => {
     ) }, [update])
   const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log('form submitted')
+    // console.log('form submitted')
     try {
       const user = await loginService({ username, password })
       if(!user){
@@ -80,11 +80,11 @@ const App = () => {
     }, 4000)
   }
 
-  const notification = (!message.type) ? null : <p className= {`notification ${message.type}`}>{message.text} </p>
+  const notification = (!message.type) ? null :
+    <p id='notificationMsg' className={`notification ${message.type}`}>{message.text} </p>
   const loginForm = () => {
     return (
       <Togglable buttonLabel="log in">
-        <div> {notification} </div>
         <LoginForm
           username={username}
           password={password}
@@ -112,7 +112,13 @@ const App = () => {
   }
 
   if(user === null || !user){
-    return loginForm()
+    return (
+      <div>
+        <h1>Blogs</h1>
+        <div> {notification} </div>
+        {loginForm()}
+      </div>
+    )
   }
   return(
     <div>
@@ -120,10 +126,12 @@ const App = () => {
       <div> {notification} </div>
       <div>{user.name} logged in <button onClick={handleLogout}>logout</button></div>
       { blogForm() }
-      {blogs
-        .sort((a, b) => b.likes - a.likes)
-        .map(blog =>
-          <Blog key={blog.id} blog={blog} setUpdate={setUpdate} user={user} />  )}
+      {blogs ?
+        blogs
+          .sort((a, b) => b.likes - a.likes)
+          .map(blog =>
+            <Blog key={blog.id} blog={blog} setUpdate={setUpdate} user={user} />  )
+        : '<p>No blog</p>'}
     </div>
   )
 }

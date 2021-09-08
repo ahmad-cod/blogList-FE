@@ -46,11 +46,12 @@ const Blog = ({ blog, setUpdate, user }) => {
         <p className='blogUrl'>Url: <a href={blog.url}>{blog.url}</a></p>
         <p className='blogLikes'>Likes: {blog.likes}  <button onClick={handleLike}>Like</button>
         </p>
-        <p>{blog.user.name}</p>
+        {/* <p>{blog.user.name}</p> */}
         <p>
-          {blog.user.username === user.username ?
-            <button onClick={handleRemove}>Remove</button> : ''
-          }
+          {/* {blog.user.username === user.username ? */}
+          <button onClick={handleRemove}>Remove</button>
+          {/* : '' */}
+          {/* } */}
         </p>
       </Togglable>
     </div> )
