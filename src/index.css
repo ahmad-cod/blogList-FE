@@ -1,9 +1,8 @@
 .notification {
-    height: 1.7rem;
     width: 70%;
     border: 4px solid;
     border-radius: 10px;
-    background-color: #fafafa;
+    background-color: #fffffe;
     font-size: 1.25rem;
     padding: 0.55rem;
 }
