@@ -2,13 +2,16 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Blog from './components/Blog'
 import blogServices from './services/blogs'
+import userServices from './services/users'
 import login from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import { createBlog, initializeBlogs } from './reducers/blogsReducer'
 import { clearNotification, createNotification } from './reducers/notificationReducer'
-import { removeUser, setUser } from './reducers/usersReducer'
+import { initializeUsers } from './reducers/usersReducer'
+import { setUser, removeUser } from './reducers/loginUserReducer'
+import Users from './components/Users'
 
 
 const App = () => {
@@ -32,6 +35,11 @@ const App = () => {
     blogServices.getAll()
       .then(blogs => dispatch(initializeBlogs(blogs)))
   }, [dispatch])
+
+  useEffect(() => {
+    userServices.getUsers()
+      .then(users => dispatch(initializeUsers(users)))
+  }, [])
 
   const blogs = useSelector(state => state.blogs)
   const message = useSelector(state => state.notification)
@@ -130,9 +138,10 @@ const App = () => {
       {blogs ?
         blogs
           .sort((a, b) => b.likes - a.likes)
-          .map(blog => blog &&
+          .map(blog =>
             <Blog key={blog.id} blog={blog} user={user} />  )
         : '<p>No blog</p>'}
+      <Users />
     </div>
   )
 }

@@ -15,12 +15,10 @@ const blogReducer = (state = [], action) => {
 
     return state.map(blog => blog.id !== id ? blog : likedBlog)
   }
-  case 'DELETE_BLOG': {
-    const id = data.id
-    const deletedBlog = state.find(blog => blog.id === id)
 
-    return state.filter(blog => blog.id !== deletedBlog.id)
-  }
+  case 'DELETE_BLOG':
+    return state.filter(blog => blog.id !== data.id)
+
   default:
     return state
   }
