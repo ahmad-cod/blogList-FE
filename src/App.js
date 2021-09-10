@@ -8,6 +8,7 @@ import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import { createBlog, initializeBlogs } from './reducers/blogsReducer'
 import { clearNotification, createNotification } from './reducers/notificationReducer'
+import { removeUser, setUser } from './reducers/usersReducer'
 
 
 const App = () => {
@@ -15,8 +16,6 @@ const App = () => {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
-  const [update, setUpdate] = useState(null)
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -25,17 +24,18 @@ const App = () => {
   useEffect(() => {
     const loggedInUser = window.localStorage.getItem('blogListUser')
     if(loggedInUser){
-      setUser(JSON.parse(loggedInUser))
+      dispatch(setUser(JSON.parse(loggedInUser)))
     }
   }, [])
 
   useEffect(() => {
     blogServices.getAll()
       .then(blogs => dispatch(initializeBlogs(blogs)))
-  }, [update])
+  }, [dispatch])
 
-  const initBlogs = useSelector(state => state.blogs)
+  const blogs = useSelector(state => state.blogs)
   const message = useSelector(state => state.notification)
+  const user = useSelector(state => state.user)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -47,7 +47,7 @@ const App = () => {
         return dispatch(createNotification({ type: 'failure', text: 'Wrong username or password' }))
       }
 
-      setUser(user)
+      dispatch(setUser(user))
       window.localStorage.setItem('blogListUser', JSON.stringify(user))
       blogServices.setToken(user.token)
       setUsername('')
@@ -61,7 +61,7 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem('blogListUser')
-    setUser(null)
+    dispatch(removeUser())
   }
 
   const addBlog = async (event) => {
@@ -69,10 +69,8 @@ const App = () => {
     blogServices.setToken(user.token)
     blogFormRef.current.toggleVisibility()
     const newBlog = await blogServices.create({ title, author, url })
-    dispatch(createBlog)
+    dispatch(createBlog(newBlog))
     console.log('addBlog')
-    setUpdate(true)
-    setUpdate(null)
     setTitle('')
     setAuthor('')
     setUrl('')
@@ -129,11 +127,11 @@ const App = () => {
       <div> {notification} </div>
       <div>{user.name} logged in <button onClick={handleLogout}>logout</button></div>
       { blogForm() }
-      {initBlogs ?
-        initBlogs
+      {blogs ?
+        blogs
           .sort((a, b) => b.likes - a.likes)
-          .map(blog =>
-            <Blog key={blog.id} blog={blog} setUpdate={setUpdate} user={user} />  )
+          .map(blog => blog &&
+            <Blog key={blog.id} blog={blog} user={user} />  )
         : '<p>No blog</p>'}
     </div>
   )

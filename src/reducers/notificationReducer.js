@@ -1,5 +1,4 @@
 
-
 const notificationReducer = (state = {}, action) => {
   const { type, data } = action
   switch (type) {

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { deleteBlog, like } from '../reducers/blogsReducer'
 import { clearNotification, createNotification } from '../reducers/notificationReducer'
 import blogServices from '../services/blogs'
 import Togglable from './Togglable'
@@ -11,7 +12,7 @@ const blogStyle = {
   margin: '5px 2px'
 }
 
-const Blog = ({ blog, setUpdate, user }) => {
+const Blog = ({ blog, user }) => {
   const dispatch = useDispatch()
   const handleLike = async () => {
     const updateBlog = {
@@ -20,7 +21,7 @@ const Blog = ({ blog, setUpdate, user }) => {
     }
     try {
       await blogServices.update(blog.id, updateBlog)
-      // setUpdate(true)
+      dispatch(like(blog))
       dispatch(createNotification({ text: `You liked ${blog.title}`, type: 'success' }))
       setTimeout(() => dispatch(clearNotification()), 4000)
       // setUpdate(null)
@@ -35,8 +36,9 @@ const Blog = ({ blog, setUpdate, user }) => {
       blogServices.setToken(user.token)
       // console.log(blog)
       await blogServices.remove(blog.id)
-      setUpdate(true)
-      setUpdate(null)
+      dispatch(deleteBlog(blog))
+      dispatch(createNotification({ type: 'success', text: `You deleted ${blog.title}` }))
+      setTimeout(() => dispatch(clearNotification()))
     } catch (e) {
       console.error(e)
     }
