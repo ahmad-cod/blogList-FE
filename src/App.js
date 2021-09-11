@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Route, Switch } from 'react-router-dom'
+import { useRouteMatch } from 'react-router'
 import Blog from './components/Blog'
 import blogServices from './services/blogs'
 import userServices from './services/users'
@@ -12,6 +14,7 @@ import { clearNotification, createNotification } from './reducers/notificationRe
 import { initializeUsers } from './reducers/usersReducer'
 import { setUser, removeUser } from './reducers/loginUserReducer'
 import Users from './components/Users'
+import User from './components/User'
 
 
 const App = () => {
@@ -44,6 +47,7 @@ const App = () => {
   const blogs = useSelector(state => state.blogs)
   const message = useSelector(state => state.notification)
   const user = useSelector(state => state.user)
+  const users = useSelector(state => state.users)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -129,19 +133,31 @@ const App = () => {
       </div>
     )
   }
+  const match = useRouteMatch('/users/:id')
+  // console.log(match.params)
+  const userToDisplay = match ? users.find(user => user.id === match.params.id) : null
   return(
     <div>
       <h2>Blogs</h2>
       <div> {notification} </div>
       <div>{user.name} logged in <button onClick={handleLogout}>logout</button></div>
-      { blogForm() }
-      {blogs ?
-        blogs
-          .sort((a, b) => b.likes - a.likes)
-          .map(blog =>
-            <Blog key={blog.id} blog={blog} user={user} />  )
-        : '<p>No blog</p>'}
-      <Users />
+      <Switch>
+        <Route path='/users/:id' >
+          <User user={userToDisplay} />
+        </Route>
+        <Route path='/users' >
+          <Users />
+        </Route>
+        <Route path='/'>
+          { blogForm() }
+          {blogs ?
+            blogs
+              .sort((a, b) => b.likes - a.likes)
+              .map(blog =>
+                <Blog key={blog.id} blog={blog} user={user} />  )
+            : '<p>No blog</p>'}
+        </Route>
+      </Switch>
     </div>
   )
 }
