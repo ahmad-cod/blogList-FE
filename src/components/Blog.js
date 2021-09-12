@@ -1,12 +1,14 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { deleteBlog, like } from '../reducers/blogsReducer'
 import { clearNotification, createNotification } from '../reducers/notificationReducer'
 import blogServices from '../services/blogs'
 import Togglable from './Togglable'
 const blogStyle = {
   paddingTop: 10,
-  paddingLeft: 2,
+  paddingLeft: 5,
+  borderRadius: 5,
   border: 'solid',
   borderWidth: 1,
   margin: '5px 2px'
@@ -47,7 +49,9 @@ const Blog = ({ blog, user }) => {
   return (
     <div style={blogStyle}>
       <div className='titleauthor'>
-        {blog.title} by {blog.author}
+        <Link to={`/blogs/${blog.id}`}>
+          {blog.title} by {blog.author}
+        </Link>
       </div>
       <Togglable buttonLabel="View">
         <p className='blogUrl'>Url: <a href={blog.url}>{blog.url}</a></p>

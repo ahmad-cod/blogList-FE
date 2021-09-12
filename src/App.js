@@ -15,6 +15,8 @@ import { initializeUsers } from './reducers/usersReducer'
 import { setUser, removeUser } from './reducers/loginUserReducer'
 import Users from './components/Users'
 import User from './components/User'
+import BlogDetails from './components/BlogDetails'
+import NavBar from './components/NavBar'
 
 
 const App = () => {
@@ -133,12 +135,15 @@ const App = () => {
       </div>
     )
   }
-  const match = useRouteMatch('/users/:id')
+  const userMatch = useRouteMatch('/users/:id')
+  const blogMatch = useRouteMatch('/blogs/:id')
   // console.log(match.params)
-  const userToDisplay = match ? users.find(user => user.id === match.params.id) : null
+  const userToDisplay = userMatch ? users.find(user => user.id === userMatch.params.id) : null
+  const blogToDisplay = blogMatch ? blogs.find(blog => blog.id === blogMatch.params.id) : null
   return(
     <div>
-      <h2>Blogs</h2>
+      <NavBar user={user} handleLogout={handleLogout} />
+      <h2>Blog App</h2>
       <div> {notification} </div>
       <div>{user.name} logged in <button onClick={handleLogout}>logout</button></div>
       <Switch>
@@ -147,6 +152,9 @@ const App = () => {
         </Route>
         <Route path='/users' >
           <Users />
+        </Route>
+        <Route path='/blogs/:id' >
+          <BlogDetails blog={blogToDisplay} />
         </Route>
         <Route path='/'>
           { blogForm() }

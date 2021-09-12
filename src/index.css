@@ -16,3 +16,10 @@
     border-color: rgb(200, 10, 10);
     color: #d32722
 }
+.navbar, .navlink {
+    padding: 5px;
+}
+.navbar {
+    display: flex;
+    justify-content: space-around;
+}

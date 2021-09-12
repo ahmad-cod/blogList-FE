@@ -19,9 +19,17 @@ const blogReducer = (state = [], action) => {
   case 'DELETE_BLOG':
     return state.filter(blog => blog.id !== data.id)
 
+  case 'NEW_COMMENT': {
+    const id = data.blog.id
+    const updatedBlog = state.find(blog => blog.id === id)
+    updatedBlog.comments = updatedBlog.comments.concat(data.comment)
+
+    return state.map(blog => blog.id !== id ? blog : updatedBlog)
+  }
   default:
     return state
   }
+
 }
 
 export const initializeBlogs = data => {
@@ -49,6 +57,13 @@ export const like = data => {
 export const deleteBlog = data => {
   return {
     type: 'DELETE_BLOG',
+    data
+  }
+}
+
+export const addComment = (data) => {
+  return {
+    type: 'NEW_COMMENT',
     data
   }
 }
