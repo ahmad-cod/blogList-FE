@@ -17,6 +17,7 @@ import Users from './components/Users'
 import User from './components/User'
 import BlogDetails from './components/BlogDetails'
 import NavBar from './components/NavBar'
+import Notification from './components/Notification'
 
 
 const App = () => {
@@ -47,7 +48,6 @@ const App = () => {
   }, [])
 
   const blogs = useSelector(state => state.blogs)
-  const message = useSelector(state => state.notification)
   const user = useSelector(state => state.user)
   const users = useSelector(state => state.users)
 
@@ -95,8 +95,6 @@ const App = () => {
     setTimeout(() => dispatch(clearNotification()), 4000)
   }
 
-  const notification = !message.type ? null :
-    <p id='notificationMsg' className={`notification ${message.type}`}>{message.text} </p>
   const loginForm = () => {
     return (
       <Togglable buttonLabel="log in">
@@ -130,7 +128,7 @@ const App = () => {
     return (
       <div>
         <h1>Blogs</h1>
-        <div> {notification} </div>
+        <Notification />
         {loginForm()}
       </div>
     )
@@ -144,7 +142,7 @@ const App = () => {
     <div>
       <NavBar user={user} handleLogout={handleLogout} />
       <h2>Blog App</h2>
-      <div> {notification} </div>
+      <Notification />
       <div>{user.name} logged in <button onClick={handleLogout}>logout</button></div>
       <Switch>
         <Route path='/users/:id' >
