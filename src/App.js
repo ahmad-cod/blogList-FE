@@ -9,7 +9,7 @@ import login from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
-import { createBlog, initializeBlogs } from './reducers/blogsReducer'
+import { initializeBlogs } from './reducers/blogsReducer'
 import { clearNotification, createNotification } from './reducers/notificationReducer'
 import { initializeUsers } from './reducers/usersReducer'
 import { setUser, removeUser } from './reducers/loginUserReducer'
@@ -25,9 +25,7 @@ const App = () => {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+
   const blogFormRef = useRef()
 
   useEffect(() => {
@@ -35,7 +33,7 @@ const App = () => {
     if(loggedInUser){
       dispatch(setUser(JSON.parse(loggedInUser)))
     }
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     blogServices.getAll()
@@ -45,7 +43,10 @@ const App = () => {
   useEffect(() => {
     userServices.getUsers()
       .then(users => dispatch(initializeUsers(users)))
-  }, [])
+  }, [dispatch])
+
+  const userMatch = useRouteMatch('/users/:id')
+  const blogMatch = useRouteMatch('/blogs/:id')
 
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.user)
@@ -78,22 +79,6 @@ const App = () => {
     dispatch(removeUser())
   }
 
-  const addBlog = async (event) => {
-    event.preventDefault()
-    blogServices.setToken(user.token)
-    blogFormRef.current.toggleVisibility()
-    const newBlog = await blogServices.create({ title, author, url })
-    dispatch(createBlog(newBlog))
-    console.log('addBlog')
-    setTitle('')
-    setAuthor('')
-    setUrl('')
-    dispatch(createNotification({
-      type: 'success',
-      text: `a new blog ${newBlog.title} by ${newBlog.author}`
-    }))
-    setTimeout(() => dispatch(clearNotification()), 4000)
-  }
 
   const loginForm = () => {
     return (
@@ -112,14 +97,7 @@ const App = () => {
   const blogForm = () => {
     return (
       <Togglable buttonLabel="Add Blog" ref={blogFormRef}>
-        <BlogForm
-          handleSubmit={addBlog}
-          title={title}
-          author={author}
-          url={url}
-          handleTitleChange={({ target }) => setTitle(target.value)}
-          handleAuthorChange={({ target }) => setAuthor(target.value)}
-          handleUrlChange={({ target }) => setUrl(target.value)}  />
+        <BlogForm user={user} blogFormRef={blogFormRef} />
       </Togglable>
     )
   }
@@ -133,8 +111,7 @@ const App = () => {
       </div>
     )
   }
-  const userMatch = useRouteMatch('/users/:id')
-  const blogMatch = useRouteMatch('/blogs/:id')
+
   // console.log(match.params)
   const userToDisplay = userMatch ? users.find(user => user.id === userMatch.params.id) : null
   const blogToDisplay = blogMatch ? blogs.find(blog => blog.id === blogMatch.params.id) : null
