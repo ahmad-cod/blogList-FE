@@ -16,6 +16,7 @@ import User from './components/users/User'
 import BlogDetails from './components/blogs/BlogDetails'
 import NavBar from './components/NavBar'
 import Notification from './components/Notification'
+import SignupForm from './components/auth/SignupForm'
 
 
 const App = () => {
@@ -76,6 +77,7 @@ const App = () => {
       <div>
         <h1>Blogs</h1>
         <Notification />
+        <SignupForm />
         {loginForm()}
       </div>
     )

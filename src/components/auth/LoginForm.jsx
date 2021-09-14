@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 // import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { createNotification, clearNotification } from '../../reducers/notificationReducer'
-import login from '../../services/login'
+import login from '../../services/auth'
 import { setUser } from '../../reducers/loginUserReducer'
 
 const LoginForm = () => {
@@ -16,14 +16,13 @@ const LoginForm = () => {
     if(!username || !password) return
     try {
       const user = await login({ username, password })
-      console.log(user)
+      // console.log(user)
       if(!user){
         setTimeout(() => dispatch(clearNotification()), 4000)
         return dispatch(createNotification({ type: 'failure', text: 'Wrong username or password' }))
       }
-      console.log('before')
       dispatch(setUser(user))
-      console.log('after')
+      // console.log('after')
       window.localStorage.setItem('blogListUser', JSON.stringify(user))
       // blogServices.setToken(user.token)
     } catch(exception) {
