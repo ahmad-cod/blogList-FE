@@ -52,14 +52,6 @@ const App = () => {
     dispatch(removeUser())
   }
 
-  const loginForm = () => {
-    return (
-      <Togglable buttonLabel="log in">
-        <LoginForm />
-      </Togglable>
-    )
-  }
-
   const blogForm = () => {
     return (
       <Togglable buttonLabel="Add Blog" ref={blogFormRef}>
@@ -74,7 +66,7 @@ const App = () => {
         <h1>Blogs</h1>
         <Notification />
         <SignupForm />
-        {loginForm()}
+        <LoginForm />
       </div>
     )
   }
