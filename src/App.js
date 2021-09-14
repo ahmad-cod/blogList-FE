@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import { useRouteMatch } from 'react-router'
-import Blog from './components/blogs/Blog'
 import blogServices from './services/blogs'
 import userServices from './services/users'
 import LoginForm from './components/auth/LoginForm'
@@ -17,11 +16,11 @@ import BlogDetails from './components/blogs/BlogDetails'
 import NavBar from './components/NavBar'
 import Notification from './components/Notification'
 import SignupForm from './components/auth/SignupForm'
+import BlogList from './components/blogs/BlogList'
 
 
 const App = () => {
   const dispatch = useDispatch()
-
   const blogFormRef = useRef()
 
   useEffect(() => {
@@ -48,13 +47,10 @@ const App = () => {
   const user = useSelector(state => state.user)
   const users = useSelector(state => state.users)
 
-
-
   const handleLogout = () => {
     window.localStorage.removeItem('blogListUser')
     dispatch(removeUser())
   }
-
 
   const loginForm = () => {
     return (
@@ -90,7 +86,6 @@ const App = () => {
       <NavBar user={user} handleLogout={handleLogout} />
       <h2>Blog App</h2>
       <Notification />
-      <div>{user.name} logged in <button onClick={handleLogout}>logout</button></div>
       <Switch>
         <Route path='/users/:id' >
           <User user={userToDisplay} />
@@ -103,12 +98,7 @@ const App = () => {
         </Route>
         <Route path='/'>
           { blogForm() }
-          {blogs ?
-            blogs
-              .sort((a, b) => b.likes - a.likes)
-              .map(blog =>
-                <Blog key={blog.id} blog={blog} user={user} />  )
-            : '<p>No blog</p>'}
+          <BlogList />
         </Route>
       </Switch>
     </div>
