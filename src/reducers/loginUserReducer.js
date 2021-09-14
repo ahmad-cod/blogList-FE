@@ -18,8 +18,10 @@ export const setUser = data => {
   }
 }
 
-export const removeUser = {
-  type: 'REMOVE_USER'
+export const removeUser = () => {
+  return {
+    type: 'REMOVE_USER'
+  }
 }
 
 export default userReducer

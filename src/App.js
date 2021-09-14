@@ -1,30 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import { useRouteMatch } from 'react-router'
-import Blog from './components/Blog'
+import Blog from './components/blogs/Blog'
 import blogServices from './services/blogs'
 import userServices from './services/users'
-import login from './services/login'
-import LoginForm from './components/LoginForm'
-import BlogForm from './components/BlogForm'
+import LoginForm from './components/auth/LoginForm'
+import BlogForm from './components/blogs/BlogForm'
 import Togglable from './components/Togglable'
 import { initializeBlogs } from './reducers/blogsReducer'
-import { clearNotification, createNotification } from './reducers/notificationReducer'
 import { initializeUsers } from './reducers/usersReducer'
 import { setUser, removeUser } from './reducers/loginUserReducer'
-import Users from './components/Users'
-import User from './components/User'
-import BlogDetails from './components/BlogDetails'
+import Users from './components/users/Users'
+import User from './components/users/User'
+import BlogDetails from './components/blogs/BlogDetails'
 import NavBar from './components/NavBar'
 import Notification from './components/Notification'
 
 
 const App = () => {
   const dispatch = useDispatch()
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
 
   const blogFormRef = useRef()
 
@@ -52,27 +47,7 @@ const App = () => {
   const user = useSelector(state => state.user)
   const users = useSelector(state => state.users)
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    if(!username || !password) return
-    try {
-      const user = await login({ username, password })
-      if(!user){
-        setTimeout(() => dispatch(clearNotification()), 4000)
-        return dispatch(createNotification({ type: 'failure', text: 'Wrong username or password' }))
-      }
 
-      dispatch(setUser(user))
-      window.localStorage.setItem('blogListUser', JSON.stringify(user))
-      blogServices.setToken(user.token)
-      setUsername('')
-      setPassword('')
-    } catch(exception) {
-      console.log(exception)
-      dispatch(createNotification({ text: 'Wrong Credentials', type: 'failure' }))
-      setTimeout(() => dispatch(clearNotification()), 4000)
-    }
-  }
 
   const handleLogout = () => {
     window.localStorage.removeItem('blogListUser')
@@ -83,13 +58,7 @@ const App = () => {
   const loginForm = () => {
     return (
       <Togglable buttonLabel="log in">
-        <LoginForm
-          username={username}
-          password={password}
-          handleSubmit={handleSubmit}
-          handleUsernameChange={({ target }) => setUsername(target.value) }
-          handlePasswordChange={({ target }) => setPassword(target.value) }
-        />
+        <LoginForm />
       </Togglable>
     )
   }
@@ -112,7 +81,6 @@ const App = () => {
     )
   }
 
-  // console.log(match.params)
   const userToDisplay = userMatch ? users.find(user => user.id === userMatch.params.id) : null
   const blogToDisplay = blogMatch ? blogs.find(blog => blog.id === blogMatch.params.id) : null
   return(

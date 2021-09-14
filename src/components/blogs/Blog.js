@@ -1,10 +1,10 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { deleteBlog, like } from '../reducers/blogsReducer'
-import { clearNotification, createNotification } from '../reducers/notificationReducer'
-import blogServices from '../services/blogs'
-import Togglable from './Togglable'
+import { deleteBlog, like } from '../../reducers/blogsReducer'
+import { clearNotification, createNotification } from '../../reducers/notificationReducer'
+import blogServices from '../../services/blogs'
+import Togglable from '../Togglable'
 const blogStyle = {
   paddingTop: 10,
   paddingLeft: 5,
@@ -59,10 +59,9 @@ const Blog = ({ blog, user }) => {
         </p>
         {/* <p>{blog.user.name}</p> */}
         <p>
-          {/* {blog.user.username === user.username ? */}
-          <button onClick={handleRemove}>Remove</button>
-          {/* : '' */}
-          {/* } */}
+          {blog.user.username === user.username ?
+            <button onClick={handleRemove}>Remove</button> : ''
+          }
         </p>
       </Togglable>
     </div> )

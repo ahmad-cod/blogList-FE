@@ -1,13 +1,12 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import blogServices from '../services/blogs'
-import { createNotification, clearNotification } from '../reducers/notificationReducer'
-import { addComment, like } from '../reducers/blogsReducer'
+import blogServices from '../../services/blogs'
+import { createNotification, clearNotification } from '../../reducers/notificationReducer'
+import { addComment, like } from '../../reducers/blogsReducer'
 
 const BlogDetails = ({ blog }) => {
-  // const [value, setValue] = useState({})
-  if(!blog) return <p>Loading ...</p>
   const dispatch = useDispatch()
+  if(!blog) return <p>Loading ...</p>
   const handleLike = async () => {
     const updateBlog = {
       ...blog,
@@ -23,6 +22,7 @@ const BlogDetails = ({ blog }) => {
       console.log(e)
     }
   }
+
   const handleComment = async (e) => {
     e.preventDefault()
     // console.log(value)

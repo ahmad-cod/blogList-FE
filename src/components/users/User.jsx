@@ -4,8 +4,8 @@ import { useParams } from 'react-router'
 
 const User = () => {
   const users = useSelector(state => state.users)
-  if(!users.length) return <p>Loading...</p>
   const id = useParams().id
+  if(!users.length) return <p>Loading...</p>
   const user = users.find(user => user.id === id)
   console.log(users, 'users')
   console.log(user, 'user')
