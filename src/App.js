@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import { useRouteMatch } from 'react-router'
 import blogServices from './services/blogs'
 import userServices from './services/users'
-import LoginForm from './components/auth/LoginForm'
+import Login from './components/auth/Login'
 import BlogForm from './components/blogs/BlogForm'
 import Togglable from './components/Togglable'
 import { initializeBlogs } from './reducers/blogsReducer'
@@ -13,9 +13,9 @@ import { setUser, removeUser } from './reducers/loginUserReducer'
 import Users from './components/users/Users'
 import User from './components/users/User'
 import BlogDetails from './components/blogs/BlogDetails'
-import NavBar from './components/NavBar'
-import Notification from './components/Notification'
-import SignupForm from './components/auth/SignupForm'
+import NavBar from './components/layout/NavBar'
+import Notification from './components/layout/Notification'
+import Signup from './components/auth/Signup'
 import BlogList from './components/blogs/BlogList'
 
 
@@ -63,10 +63,10 @@ const App = () => {
   if(user === null || !user){
     return (
       <div>
+        <NavBar />
         <h1>Blogs</h1>
         <Notification />
-        <SignupForm />
-        <LoginForm />
+        <Login />
       </div>
     )
   }
@@ -79,12 +79,13 @@ const App = () => {
       <h2>Blog App</h2>
       <Notification />
       <Switch>
+        <Route path='/users/signup' component={Signup} />
+        <Route path='/users/login' component={Login} />
         <Route path='/users/:id' >
           <User user={userToDisplay} />
         </Route>
-        <Route path='/users' >
-          <Users />
-        </Route>
+        <Route path='/users' component={Users} />
+        <Route path='/blogs/create' component={BlogForm} />
         <Route path='/blogs/:id' >
           <BlogDetails blog={blogToDisplay} />
         </Route>

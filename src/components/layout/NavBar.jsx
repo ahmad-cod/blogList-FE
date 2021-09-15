@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import SignedInLinks from './SignedInLinks'
+import SignedOutLinks from './SignedOutLinks'
 
 const style = {
   padding: 5,
@@ -8,12 +10,12 @@ const style = {
   backgroundColor: '#eaeaea'
 }
 
-const NavBar = ({ user, handleLogout }) => {
+const NavBar = ({ user }) => {
+  const links = user ? <SignedInLinks user={user} /> : <SignedOutLinks />
   return (
     <div style={style} className='navbar'>
       <Link to='/blogs' className='navlink'>Blogs</Link>
-      <Link to='/users' className='navlink'>Users</Link>
-      {user.name} logged in <button onClick={handleLogout}>logout</button>
+      {links}
     </div>
   )
 }
