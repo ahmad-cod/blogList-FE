@@ -1,25 +1,13 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { useParams } from 'react-router'
+import { Tr, Td } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 
-const User = () => {
-  const users = useSelector(state => state.users)
-  const id = useParams().id
-  if(!users.length) return <p>Loading...</p>
-  const user = users.find(user => user.id === id)
-  console.log(users, 'users')
-  console.log(user, 'user')
+const User = ({ user }) => {
   return (
-    <>
-      <h2>{user.name}</h2>
-      <h4>Added Blogs</h4>
-      { user.blogs ?
-        <ul>
-          {user.blogs.map(blog => <li key={blog.id}>{blog.title}</li> )}
-        </ul>
-        : <p>No blog added yet</p>
-      }
-    </>
+    <Tr>
+      <Td><Link to={`/users/${user.id}`} >{user.name}</Link></Td>
+      <Td isNumeric>{user.blogs.length}</Td>
+    </Tr>
   )
 }
 
