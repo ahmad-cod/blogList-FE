@@ -1,11 +1,13 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import blogServices from '../../services/blogs'
 import { createNotification, clearNotification } from '../../reducers/notificationReducer'
-import { addComment, like } from '../../reducers/blogsReducer'
+import { addComment, like, deleteBlog } from '../../reducers/blogsReducer'
 
 const BlogDetails = ({ blog }) => {
   const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
+
   if(!blog) return <p>Loading ...</p>
   const handleLike = async () => {
     const updateBlog = {
@@ -20,6 +22,20 @@ const BlogDetails = ({ blog }) => {
       // setUpdate(null)
     } catch (e) {
       console.log(e)
+    }
+  }
+
+  const handleRemove = async () => {
+    if(!window.confirm(`Remove blog ${blog.title} by ${blog.author}`)){return false}
+    try {
+      blogServices.setToken(user.token)
+      // console.log(blog)
+      await blogServices.remove(blog.id)
+      dispatch(deleteBlog(blog))
+      dispatch(createNotification({ type: 'success', text: `You deleted ${blog.title}` }))
+      setTimeout(() => dispatch(clearNotification()))
+    } catch (e) {
+      console.error(e)
     }
   }
 
@@ -56,6 +72,11 @@ const BlogDetails = ({ blog }) => {
         </div>
         <p>added by { blog.user && blog.user.name}</p>
       </div>
+      <p>
+        {blog.user.username === user.username ?
+          <button onClick={handleRemove}>Remove</button> : ''
+        }
+      </p>
       <div>
         <h4>Comments</h4>
         <form onSubmit={handleComment}>

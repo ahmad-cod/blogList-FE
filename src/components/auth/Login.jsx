@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Flex, Heading, Input } from '@chakra-ui/react'
 // import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { createNotification, clearNotification } from '../../reducers/notificationReducer'
@@ -32,28 +33,30 @@ const LoginForm = () => {
     }
   }
   return (
-    <>
-      <h2>Login</h2>
-      <form className="loginForm" onSubmit={handleSubmit}>
-        <label htmlFor="username">Username: </label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          value={username}
-          onChange={({ target }) => setUsername(target.value)}
-        />
-        <label htmlFor="password">Password: </label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          value={password}
-          onChange={({ target }) => setPassword(target.value)}
-        />
-        <button type="submit" id="login-button">Login</button>
-      </form>
-    </>
+    <Flex height='100vh' alignItems='center' justifyContent='center'>
+      <Flex direction='column' bg='gray.100' p={12} rounded={6}>
+        <Heading>Log in</Heading>
+        <form className="loginForm" onSubmit={handleSubmit}>
+          <label htmlFor="username">Username: </label>
+          <Input
+            type="text"
+            name="username"
+            id="username"
+            value={username}
+            onChange={({ target }) => setUsername(target.value)}
+          />
+          <label htmlFor="password">Password: </label>
+          <Input
+            type="password"
+            name="password"
+            id="password"
+            value={password}
+            onChange={({ target }) => setPassword(target.value)}
+          />
+          <button type="submit" id="login-button">Login</button>
+        </form>
+      </Flex>
+    </Flex>
   )
 }
 

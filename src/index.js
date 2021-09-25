@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import usersReducer from './reducers/usersReducer'
 import userReducer from './reducers/loginUserReducer'
 import { BrowserRouter } from 'react-router-dom'
+import { ChakraProvider } from '@chakra-ui/react'
 
 const reducer = combineReducers({
   blogs: blogsReducer,
@@ -21,6 +22,8 @@ const store = createStore(reducer)
 
 ReactDOM.render(<BrowserRouter>
   <Provider store={store}>
-    <App />
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
   </Provider>
 </BrowserRouter>, document.getElementById('root'))
