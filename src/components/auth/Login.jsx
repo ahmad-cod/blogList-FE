@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Flex, Heading, Input } from '@chakra-ui/react'
+import { Flex, Heading, Input, Button } from '@chakra-ui/react'
 // import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { createNotification, clearNotification } from '../../reducers/notificationReducer'
@@ -33,8 +33,8 @@ const LoginForm = () => {
     }
   }
   return (
-    <Flex height='100vh' alignItems='center' justifyContent='center'>
-      <Flex direction='column' bg='gray.100' p={12} rounded={6}>
+    <Flex height='94vh'>
+      <Flex direction='column' bg='gray.300' p={12} rounded={6}>
         <Heading>Log in</Heading>
         <form className="loginForm" onSubmit={handleSubmit}>
           <label htmlFor="username">Username: </label>
@@ -53,7 +53,7 @@ const LoginForm = () => {
             value={password}
             onChange={({ target }) => setPassword(target.value)}
           />
-          <button type="submit" id="login-button">Login</button>
+          <Button type="submit" id="login-button" my='7px'>Log in</Button>
         </form>
       </Flex>
     </Flex>

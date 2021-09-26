@@ -10,7 +10,7 @@ import {
 import { BellIcon } from '@chakra-ui/icons'
 const BlogList = () => {
   const blogs = useSelector(state => state.blogs)
-  const user = useSelector(state => state.user)
+  // const user = useSelector(state => state.user)
   if(!blogs) {
     return <p>No blog</p>
   }
@@ -29,7 +29,7 @@ const BlogList = () => {
       </Flex>
       <Box>
         { blogs.sort((a, b) => b.likes - a.likes)
-          .map((blog, index) => <Blog key={blog.id} blog={blog} index={index} user={user} />)
+          .map((blog, index) => <Blog key={blog.id} blog={blog} index={index}/>)
         }
       </Box>
     </Container>

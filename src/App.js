@@ -64,7 +64,7 @@ const App = () => {
     return (
       <div>
         <NavBar />
-        <h1>Blogs</h1>
+        {/* <h1>Blogs</h1> */}
         <Notification />
         <Login />
       </div>
@@ -76,7 +76,7 @@ const App = () => {
   return(
     <div>
       <NavBar user={user} handleLogout={handleLogout} />
-      <h2>Blog App</h2>
+      {/* <h2>Blog App</h2> */}
       <Notification />
       <Switch>
         <Route path='/users/signup' component={Signup} />

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import blogServices from '../../services/blogs'
 import { createBlog } from '../../reducers/blogsReducer'
 import { createNotification, clearNotification } from '../../reducers/notificationReducer'
+import { Flex, Heading, Input, Button } from '@chakra-ui/react'
 
 const BlogForm = ({ user, blogFormRef }) => {
   const [title, setTitle] = useState('')
@@ -11,6 +12,7 @@ const BlogForm = ({ user, blogFormRef }) => {
   const dispatch = useDispatch()
 
   const addBlog = async (event) => {
+    console.log('user', user)
     event.preventDefault()
     blogServices.setToken(user.token)
     blogFormRef.current.toggleVisibility()
@@ -28,33 +30,33 @@ const BlogForm = ({ user, blogFormRef }) => {
   }
 
   return (
-    <>
-      <h3>Create a new Blog List</h3>
+    <Flex direction='column' bg='gray.300' h='92vh' p={7}>
+      <Heading>Add a Blog</Heading>
       <form onSubmit={addBlog}>
         <label htmlFor="title">Title: </label>
-        <input
+        <Input
           type="text"
           name="title"
           value={title}
           onChange={({ target }) => setTitle(target.value)}
         />
         <label htmlFor="author">Author </label>
-        <input
+        <Input
           type="text"
           name="author"
           value={author}
           onChange={({ target }) => setAuthor(target.value)}
         />
         <label htmlFor="url">Url </label>
-        <input
+        <Input
           type="url"
           name="url"
           value={url}
           onChange={({ target }) => setUrl(target.value)}
         />
-        <button type="submit">Create</button>
+        <Button type="submit" my='10px'>Create</Button>
       </form>
-    </>
+    </Flex>
   )
 }
 

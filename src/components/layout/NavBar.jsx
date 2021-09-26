@@ -14,9 +14,9 @@ import { Flex, Spacer, Box, Heading } from '@chakra-ui/react'
 const NavBar = ({ user }) => {
   const links = user ? <SignedInLinks user={user} /> : <SignedOutLinks />
   return (
-    <Flex>
-      <Box p='2'>
-        <Heading size='md'> <Link to='/blogs' className='navlink'>Blogs</Link> </Heading>
+    <Flex borderBottom='1px solid #888' p='2' alignItems='center'>
+      <Box>
+        <Heading size='md'> <Link to='/blogs' className='navlink'>BLOGGS</Link> </Heading>
       </Box>
       <Spacer />
       <Box>

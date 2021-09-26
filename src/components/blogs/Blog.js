@@ -18,7 +18,7 @@ import { StarIcon } from '@chakra-ui/icons'
 //   margin: '5px 2px'
 // }
 
-const Blog = ({ blog, user, index }) => {
+const Blog = ({ blog, index }) => {
   return (
     <Flex my='14px'>
       <Box
@@ -30,13 +30,13 @@ const Blog = ({ blog, user, index }) => {
       >0{index + 1}</Box>
       <Box>
         <Flex alignItems='center' my='8px'>
-          <Avatar size='xs' name={user.name}></Avatar>
+          <Avatar size='xs' name={blog.user.name}></Avatar>
           <Heading
             pl='8px'
             fontSize='13px'
             lineHeight='17px'
             fontWeight='500'
-          >{user.name}</Heading>
+          >{blog.user.name}</Heading>
         </Flex>
         <Heading
           as='h2'
@@ -56,7 +56,7 @@ const Blog = ({ blog, user, index }) => {
           lineHeight='20px'>
           <Text as='span' size='xs'>Sep 15. </Text>
           <Text as='span' size='2xs' mr='8px'> 4 min read </Text>
-          {blog.likes > 10 ? <StarIcon /> : ''}
+          {blog.likes > 10 ? <StarIcon h='11px'/> : ''}
         </Box>
       </Box>
     </Flex>
