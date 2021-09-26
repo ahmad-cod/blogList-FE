@@ -1,21 +1,23 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import blogServices from '../../services/blogs'
 import { createBlog } from '../../reducers/blogsReducer'
 import { createNotification, clearNotification } from '../../reducers/notificationReducer'
 import { Flex, Heading, Input, Button } from '@chakra-ui/react'
 
-const BlogForm = ({ user, blogFormRef }) => {
+const BlogForm = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
+
 
   const addBlog = async (event) => {
     console.log('user', user)
     event.preventDefault()
     blogServices.setToken(user.token)
-    blogFormRef.current.toggleVisibility()
+    // blogFormRef.current.toggleVisibility()
     const newBlog = await blogServices.create({ title, author, url })
     dispatch(createBlog(newBlog))
     console.log(newBlog, 'newBlog')

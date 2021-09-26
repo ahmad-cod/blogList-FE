@@ -19,6 +19,7 @@ import { StarIcon } from '@chakra-ui/icons'
 // }
 
 const Blog = ({ blog, index }) => {
+  console.log(blog.user)
   return (
     <Flex my='14px'>
       <Box

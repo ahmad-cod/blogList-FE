@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import blogServices from '../../services/blogs'
 import { createNotification, clearNotification } from '../../reducers/notificationReducer'
 import { addComment, like, deleteBlog } from '../../reducers/blogsReducer'
+import { Input, Button, Heading, Box, Container, Text, List, ListItem, Flex } from '@chakra-ui/react'
 
 const BlogDetails = ({ blog }) => {
   const dispatch = useDispatch()
@@ -60,37 +61,37 @@ const BlogDetails = ({ blog }) => {
   }
   console.log(blog.comments)
   return (
-    <>
-      <div>
-        <h2>{blog.title}</h2>
-        <p>
+    <Container>
+      <Box p={2}>
+        <Heading>{blog.title}</Heading>
+        <Text>
           <a href={blog.url}>{blog.url}</a>
-        </p>
-        <div>
-          {blog.likes} likes
-          <button onClick={handleLike}>Like</button>
-        </div>
-        <p>added by { blog.user && blog.user.name}</p>
-      </div>
-      <p>
+        </Text>
+        <Flex alignItems='center' justifyContent='space-between'>
+          <Text>{blog.likes} likes</Text>
+          <Button onClick={handleLike}>Like</Button>
+        </Flex>
+        <Text>added by { blog.user && blog.user.name}</Text>
+      </Box>
+      <Text>
         {blog.user.username === user.username ?
-          <button onClick={handleRemove}>Remove</button> : ''
+          <Button onClick={handleRemove}>Remove</Button> : ''
         }
-      </p>
-      <div>
-        <h4>Comments</h4>
+      </Text>
+      <Box>
+        <Heading as='h4'>Comments</Heading>
         <form onSubmit={handleComment}>
-          <input type="text" name='comment' />
-          <button>Add Comment</button>
+          <Input type="text" name='comment' maxW='80vw' m={4}/>
+          <Button type='submit' m={4} mt='0px'>Comment</Button>
         </form>
-        <ul>
+        <List>
           {
             blog.comments ?
-              blog.comments.map((comment, i) => <li key={i}>{comment}</li>) : null
+              blog.comments.map((comment, i) => <ListItem key={i}>{comment}</ListItem>) : null
           }
-        </ul>
-      </div>
-    </>
+        </List>
+      </Box>
+    </Container>
   )
 }
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Flex, Heading, Input, Button } from '@chakra-ui/react'
+import blogServices from '../../services/blogs'
 // import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { createNotification, clearNotification } from '../../reducers/notificationReducer'
@@ -11,7 +12,6 @@ const LoginForm = () => {
   const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
-
   const handleSubmit = async (event) => {
     event.preventDefault()
     if(!username || !password) return
@@ -23,6 +23,7 @@ const LoginForm = () => {
         return dispatch(createNotification({ type: 'failure', text: 'Wrong username or password' }))
       }
       dispatch(setUser(user))
+      blogServices.setToken(user.token)
       // console.log('after')
       window.localStorage.setItem('blogListUser', JSON.stringify(user))
       // blogServices.setToken(user.token)
