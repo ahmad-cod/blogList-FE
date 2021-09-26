@@ -66,7 +66,7 @@ const App = () => {
         <NavBar />
         {/* <h1>Blogs</h1> */}
         <Notification />
-        <Login />
+        <Signup />
       </div>
     )
   }
