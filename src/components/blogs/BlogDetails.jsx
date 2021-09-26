@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import blogServices from '../../services/blogs'
 import { createNotification, clearNotification } from '../../reducers/notificationReducer'
 import { addComment, like, deleteBlog } from '../../reducers/blogsReducer'
-import { Input, Button, Heading, Box, Container, Text, List, ListItem, Flex } from '@chakra-ui/react'
+import { Input, Button, Heading, Box, Container, Text, List, ListItem, Flex, ListIcon } from '@chakra-ui/react'
+import { SettingsIcon } from '@chakra-ui/icons'
 
 const BlogDetails = ({ blog }) => {
   const dispatch = useDispatch()
@@ -64,12 +65,12 @@ const BlogDetails = ({ blog }) => {
     <Container>
       <Box p={2}>
         <Heading>{blog.title}</Heading>
-        <Text>
-          <a href={blog.url}>{blog.url}</a>
+        <Text textDecoration='underline'>
+          <a href={blog.url} className='blogUrl'>{blog.url}</a>
         </Text>
         <Flex alignItems='center' justifyContent='space-between'>
-          <Text>{blog.likes} likes</Text>
-          <Button onClick={handleLike}>Like</Button>
+          <Text><span className='likes'>{blog.likes}</span> likes</Text>
+          <Button onClick={handleLike} borderRadius='46%'>Like</Button>
         </Flex>
         <Text>added by { blog.user && blog.user.name}</Text>
       </Box>
@@ -79,15 +80,22 @@ const BlogDetails = ({ blog }) => {
         }
       </Text>
       <Box>
-        <Heading as='h4'>Comments</Heading>
+        <Heading
+          as='h4'
+          fontSize='18px'
+        >
+          Comments {blog.comments.length ? `(${blog.comments.length})` : ''}
+        </Heading>
         <form onSubmit={handleComment}>
-          <Input type="text" name='comment' maxW='80vw' m={4}/>
-          <Button type='submit' m={4} mt='0px'>Comment</Button>
+          <Input type="text" name='comment' maxW='80vw' my='10px'/>
+          <Button type='submit' mb='5px'>Comment</Button>
         </form>
         <List>
           {
             blog.comments ?
-              blog.comments.map((comment, i) => <ListItem key={i}>{comment}</ListItem>) : null
+              blog.comments.map((comment, i) => <ListItem key={i}>
+                <ListIcon as={SettingsIcon} color="green.400" />
+                {comment}</ListItem>) : null
           }
         </List>
       </Box>
