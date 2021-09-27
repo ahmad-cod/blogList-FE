@@ -9,7 +9,7 @@ const SignedOutLinks = () => {
         <NavLink to='/users/login' className='navlink' >Sign in</NavLink>
       </Button> */}
       <Button colorScheme='teal' size='md' mr='4'>
-        <NavLink to='/users/signup' className='navlink' >Get Started</NavLink>
+        <NavLink to='/signup' className='navlink' >Get Started</NavLink>
       </Button>
     </div>
   )

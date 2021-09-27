@@ -5,11 +5,12 @@ import { createNotification, clearNotification } from '../../reducers/notificati
 import { addComment, like, deleteBlog } from '../../reducers/blogsReducer'
 import { Input, Button, Heading, Box, Container, Text, List, ListItem, Flex, ListIcon } from '@chakra-ui/react'
 import { SettingsIcon } from '@chakra-ui/icons'
+import { Redirect } from 'react-router-dom'
 
 const BlogDetails = ({ blog }) => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
-
+  if (!user) <Redirect to='/signup'/>
   if(!blog) return <p>Loading ...</p>
   const handleLike = async () => {
     const updateBlog = {

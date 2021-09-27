@@ -4,14 +4,16 @@ import blogServices from '../../services/blogs'
 import { createBlog } from '../../reducers/blogsReducer'
 import { createNotification, clearNotification } from '../../reducers/notificationReducer'
 import { Flex, Heading, Input, Button } from '@chakra-ui/react'
+import { Redirect } from 'react-router-dom'
 
 const BlogForm = () => {
+  const user = useSelector(state => state.user)
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
 
+  if(!user) return <Redirect to='/signup' />
 
   const addBlog = async (event) => {
     console.log('user', user)

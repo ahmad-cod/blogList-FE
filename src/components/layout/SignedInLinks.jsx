@@ -13,7 +13,7 @@ const SignedInLinks = ({ user }) => {
 
   return (
     <div>
-      <Link as={NavLink} to='/blogs/create' px='5px'>New Blog</Link>
+      <Link as={NavLink} to='/blogs/create' px='5px'>Add Blog</Link>
       <Link as={NavLink} to='/users' px='5px' >Users</Link>
       <Avatar name={user.name} size='sm' px='8px'/>
       {/* {user.name} logged in */}
