@@ -5,7 +5,7 @@ import { createNotification, clearNotification } from '../../reducers/notificati
 import { signup } from '../../services/auth'
 import { setUser } from '../../reducers/loginUserReducer'
 import { addUser } from '../../reducers/usersReducer'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import { Flex, Heading, Input, Button, Text, Link } from '@chakra-ui/react'
 
 const SignupForm = () => {
@@ -14,6 +14,7 @@ const SignupForm = () => {
   const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -23,6 +24,7 @@ const SignupForm = () => {
       // console.log(user)
       dispatch(setUser(user))
       dispatch(addUser(user))
+      history.push('/')
       setTimeout(() => dispatch(clearNotification()), 4000)
       window.localStorage.setItem('blogListUser', JSON.stringify(user))
       return dispatch(createNotification({ type: 'success', text: `${user.name} successfully signed in` }))

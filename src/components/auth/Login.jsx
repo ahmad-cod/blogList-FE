@@ -6,12 +6,15 @@ import { useDispatch } from 'react-redux'
 import { createNotification, clearNotification } from '../../reducers/notificationReducer'
 import login from '../../services/auth'
 import { setUser } from '../../reducers/loginUserReducer'
+import { useHistory } from 'react-router-dom'
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
+  const history = useHistory()
+
   const handleSubmit = async (event) => {
     event.preventDefault()
     if(!username || !password) return
@@ -23,6 +26,7 @@ const LoginForm = () => {
         return dispatch(createNotification({ type: 'failure', text: 'Wrong username or password' }))
       }
       dispatch(setUser(user))
+      history.push('/')
       blogServices.setToken(user.token)
       // console.log('after')
       window.localStorage.setItem('blogListUser', JSON.stringify(user))
