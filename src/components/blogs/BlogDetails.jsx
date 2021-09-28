@@ -10,7 +10,10 @@ import { Redirect } from 'react-router-dom'
 const BlogDetails = ({ blog }) => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
-  if (!user) <Redirect to='/signup'/>
+  if (!user) {
+    console.log('No User')
+    return <Redirect to='/signup'/>
+  }
   if(!blog) return <p>Loading ...</p>
   const handleLike = async () => {
     const updateBlog = {
@@ -22,7 +25,6 @@ const BlogDetails = ({ blog }) => {
       dispatch(like (blog))
       dispatch(createNotification({ text: `You liked ${blog.title}`, type: 'success' }))
       setTimeout(() => dispatch(clearNotification()), 4000)
-      // setUpdate(null)
     } catch (e) {
       console.log(e)
     }
@@ -44,7 +46,6 @@ const BlogDetails = ({ blog }) => {
 
   const handleComment = async (e) => {
     e.preventDefault()
-    // console.log(value)
     const comment = e.target.comment.value
     console.log(comment)
     if(!comment) return

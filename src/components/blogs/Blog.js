@@ -9,17 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { StarIcon } from '@chakra-ui/icons'
 
-// const blogStyle = {
-//   paddingTop: 10,
-//   paddingLeft: 5,
-//   borderRadius: 5,
-//   border: 'solid',
-//   borderWidth: 1,
-//   margin: '5px 2px'
-// }
-
 const Blog = ({ blog, index }) => {
-  console.log(blog.user)
   return (
     <Flex my='14px'>
       <Box
@@ -65,16 +55,3 @@ const Blog = ({ blog, index }) => {
 }
 
 export default Blog
-
-
-{/* <Togglable buttonLabel="View">
-  <p className='blogUrl'>Url: <a href={blog.url}>{blog.url}</a></p>
-  <p className='blogLikes'>Likes: {blog.likes}  <button onClick={handleLike}>Like</button>
-  </p>
-  {/* <p>{blog.user.name}</p> */}
-//   <p>
-//     {blog.user.username === user.username ?
-//       <button onClick={handleRemove}>Remove</button> : ''
-//     }
-//   </p>
-// </Togglable>
