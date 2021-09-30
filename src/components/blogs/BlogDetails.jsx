@@ -68,7 +68,7 @@ const BlogDetails = ({ blog }) => {
       <Box p={2}>
         <Heading>{blog.title}</Heading>
         <Text textDecoration='underline'>
-          <a href={blog.url} className='blogUrl'>{blog.url}</a>
+          <a href={blog.url} target='_blank' rel='noreferrer' className='blogUrl'>{blog.url}</a>
         </Text>
         <Flex alignItems='center' justifyContent='space-between'>
           <Text><span className='likes'>{blog.likes}</span> likes</Text>
