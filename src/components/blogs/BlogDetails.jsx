@@ -34,7 +34,6 @@ const BlogDetails = ({ blog }) => {
     if(!window.confirm(`Remove blog ${blog.title} by ${blog.author}`)){return false}
     try {
       blogServices.setToken(user.token)
-      // console.log(blog)
       await blogServices.remove(blog.id)
       dispatch(deleteBlog(blog))
       dispatch(createNotification({ type: 'success', text: `You deleted ${blog.title}` }))
