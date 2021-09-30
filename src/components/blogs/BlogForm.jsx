@@ -4,7 +4,7 @@ import blogServices from '../../services/blogs'
 import { createBlog } from '../../reducers/blogsReducer'
 import { createNotification, clearNotification } from '../../reducers/notificationReducer'
 import { Flex, Heading, Input, Button } from '@chakra-ui/react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 
 const BlogForm = () => {
   const user = useSelector(state => state.user)
@@ -12,6 +12,7 @@ const BlogForm = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const dispatch = useDispatch()
+  const history = useHistory()
 
   if(!user) return <Redirect to='/signup' />
 
@@ -26,6 +27,7 @@ const BlogForm = () => {
     setTitle('')
     setAuthor('')
     setUrl('')
+    history.push('/')
     dispatch(createNotification({
       type: 'success',
       text: `a new blog ${newBlog.title} by ${newBlog.author}`
